@@ -17,6 +17,7 @@ const VenueDetails = () => {
       })
       .then((data) => {
         console.log('Venue details:', data);
+
         setVenue(data.data || data);
         setLoading(false);
       })
