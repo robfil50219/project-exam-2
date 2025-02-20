@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getApiKeyOptions } from '../apiConfig';
 
-const MyListings = ({ username, token }) => {
+const MyVenues = ({ username, token }) => {
   const [venues, setVenues] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -15,12 +15,11 @@ const MyListings = ({ username, token }) => {
     fetch(`https://v2.api.noroff.dev/holidaze/profiles/${username}/venues`, getApiKeyOptions(token))
       .then((res) => {
         if (!res.ok) {
-          throw new Error('Failed to fetch listings');
+          throw new Error('Failed to fetch venues');
         }
         return res.json();
       })
       .then((data) => {
-        // The response is expected to have a "data" property that is an array
         setVenues(data.data || []);
         setLoading(false);
       })
@@ -30,13 +29,13 @@ const MyListings = ({ username, token }) => {
       });
   }, [username, token]);
 
-  if (loading) return <p>Loading your listings...</p>;
-  if (error) return <p className="text-danger">Error loading listings: {error}</p>;
-  if (venues.length === 0) return <p>You don't have any listings yet.</p>;
+  if (loading) return <p>Loading your venues...</p>;
+  if (error) return <p className="text-danger">Error loading venues: {error}</p>;
+  if (venues.length === 0) return <p>You don't have any venues yet.</p>;
 
   return (
     <div className="my-5">
-      <h2 className="mb-4">My Listings</h2>
+      <h2 className="mb-4">My Venues</h2>
       <div className="row">
         {venues.map((venue) => (
           <div key={venue.id} className="col-md-4 mb-4">
@@ -61,4 +60,4 @@ const MyListings = ({ username, token }) => {
   );
 };
 
-export default MyListings;
+export default MyVenues;

@@ -1,49 +1,58 @@
-// src/pages/AddListing.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getApiKeyOptions } from '../apiConfig';
 
-const AddListing = () => {
-  const token = localStorage.getItem('token');
+const AddVenue = () => {
+  const token = localStorage.getItem('token'); // if required by the API
   const navigate = useNavigate();
 
-  // Form state for creating a listing.
   const [form, setForm] = useState({
     name: '',
     description: '',
     price: '',
     maxGuests: '',
-    mediaUrl: '',
+    mediaUrl: 'https://example.com/image.jpg', // default image URL
+    // Meta fields
+    wifi: false,
+    parking: false,
+    breakfast: false,
+    pets: false,
   });
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
-  // Handle form input changes
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setForm(prev => ({
+    const { name, value, type, checked } = e.target;
+    setForm((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: type === 'checkbox' ? checked : value,
     }));
   };
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     setSuccess('');
 
-    // Construct the payload as per API requirements.
+    // Construct payload with trimmed values and meta object
     const payload = {
-      name: form.name,
-      description: form.description,
+      name: form.name.trim(),
+      description: form.description.trim(),
       price: parseFloat(form.price),
       maxGuests: parseInt(form.maxGuests, 10),
-      // Media is expected as an array; we use a single media item if provided.
-      media: form.mediaUrl ? [{ url: form.mediaUrl, alt: form.name + ' image' }] : [],
+      media: form.mediaUrl
+        ? [{ url: form.mediaUrl.trim(), alt: `${form.name.trim()} image` }]
+        : [],
+      meta: {
+        wifi: form.wifi,
+        parking: form.parking,
+        breakfast: form.breakfast,
+        pets: form.pets,
+      },
+      // You can also provide a location object if needed, e.g., location: null
     };
 
-    console.log('Add Listing payload:', JSON.stringify(payload));
+    console.log('Add Venue payload:', JSON.stringify(payload));
 
     try {
       const response = await fetch('https://v2.api.noroff.dev/holidaze/venues', {
@@ -51,20 +60,19 @@ const AddListing = () => {
         headers: {
           'Content-Type': 'application/json',
           ...getApiKeyOptions(token).headers,
-          // Note: Depending on API, you might also need an Authorization header.
+          // Include Authorization header if required:
           // 'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify(payload),
       });
 
       if (!response.ok) {
-        throw new Error(`Failed to create listing: ${response.statusText}`);
+        throw new Error(`Failed to create venue: ${response.statusText}`);
       }
 
       const data = await response.json();
-      console.log('Add Listing response:', data);
-      setSuccess('Listing created successfully!');
-      // Optionally, redirect the user to their listings page
+      console.log('Venue created:', data);
+      setSuccess('Venue created successfully!');
       navigate('/profile');
     } catch (err) {
       console.error(err);
@@ -72,17 +80,15 @@ const AddListing = () => {
     }
   };
 
-  // If not logged in, you may want to redirect or show an error (not implemented here)
-
   return (
     <div className="container my-5">
-      <h1 className="display-4 text-center mb-4">Add a New Listing</h1>
+      <h1 className="display-4 text-center mb-4">Add Venue</h1>
       {error && <div className="alert alert-danger">{error}</div>}
       {success && <div className="alert alert-success">{success}</div>}
       <form onSubmit={handleSubmit}>
-        {/* Listing Name */}
+        {/* Venue Name */}
         <div className="mb-3">
-          <label htmlFor="name" className="form-label">Listing Name</label>
+          <label htmlFor="name" className="form-label">Venue Name</label>
           <input 
             type="text" 
             name="name" 
@@ -106,7 +112,7 @@ const AddListing = () => {
             required
           ></textarea>
         </div>
-        {/* Price */}
+        {/* Price per Night */}
         <div className="mb-3">
           <label htmlFor="price" className="form-label">Price per Night ($)</label>
           <input 
@@ -116,8 +122,8 @@ const AddListing = () => {
             className="form-control" 
             value={form.price} 
             onChange={handleChange} 
-            required
-            min="0"
+            required 
+            min="0" 
             step="0.01"
           />
         </div>
@@ -131,11 +137,11 @@ const AddListing = () => {
             className="form-control" 
             value={form.maxGuests} 
             onChange={handleChange} 
-            required
+            required 
             min="1"
           />
         </div>
-        {/* Media URL */}
+        {/* Image URL */}
         <div className="mb-3">
           <label htmlFor="mediaUrl" className="form-label">Image URL</label>
           <input 
@@ -146,12 +152,62 @@ const AddListing = () => {
             placeholder="https://example.com/image.jpg"
             value={form.mediaUrl} 
             onChange={handleChange} 
+            required
           />
         </div>
-        <button type="submit" className="btn btn-primary">Create Listing</button>
+        {/* Meta Data */}
+        <h5 className="mt-4">Amenities</h5>
+        <div className="form-check">
+          <input 
+            type="checkbox" 
+            name="wifi" 
+            id="wifi" 
+            className="form-check-input" 
+            checked={form.wifi} 
+            onChange={handleChange} 
+          />
+          <label className="form-check-label" htmlFor="wifi">WiFi</label>
+        </div>
+        <div className="form-check">
+          <input 
+            type="checkbox" 
+            name="parking" 
+            id="parking" 
+            className="form-check-input" 
+            checked={form.parking} 
+            onChange={handleChange} 
+          />
+          <label className="form-check-label" htmlFor="parking">Parking</label>
+        </div>
+        <div className="form-check">
+          <input 
+            type="checkbox" 
+            name="breakfast" 
+            id="breakfast" 
+            className="form-check-input" 
+            checked={form.breakfast} 
+            onChange={handleChange} 
+          />
+          <label className="form-check-label" htmlFor="breakfast">Breakfast</label>
+        </div>
+        <div className="form-check mb-4">
+          <input 
+            type="checkbox" 
+            name="pets" 
+            id="pets" 
+            className="form-check-input" 
+            checked={form.pets} 
+            onChange={handleChange} 
+          />
+          <label className="form-check-label" htmlFor="pets">Pets Allowed</label>
+        </div>
+        <button type="submit" className="btn btn-primary">Create Venue</button>
       </form>
     </div>
   );
 };
 
-export default AddListing;
+export default AddVenue;
+
+
+

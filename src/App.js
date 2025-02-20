@@ -9,7 +9,7 @@ import Register from './pages/Register';
 import About from './pages/About';
 import Contact from './pages/Contact';
 import Profile from './pages/Profile';
-import AddListing from './pages/AddListing';
+import AddVenue from './pages/AddVenue';
 
 function App() {
   return (
@@ -25,7 +25,7 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/profile" element={<Profile />} />
-            <Route path="/add-listing" element={<AddListing />} />
+            <Route path="/add-venue" element={<AddVenue />} />
           </Routes>
         </main>
         <Footer />

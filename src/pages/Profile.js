@@ -1,7 +1,8 @@
+// src/pages/Profile.js
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { getApiKeyOptions } from '../apiConfig';
-import MyListings from '../components/MyListings';
+import MyVenues from '../components/MyVenues'; // Changed from MyListings to MyVenues
 
 const Profile = () => {
   const token = localStorage.getItem('token');
@@ -146,6 +147,7 @@ const Profile = () => {
 
       {success && <div className="alert alert-success">{success}</div>}
 
+      {/* Toggle Edit Form */}
       {!editMode ? (
         <div className="text-center mb-4">
           <button className="btn btn-secondary" onClick={() => setEditMode(true)}>
@@ -234,12 +236,22 @@ const Profile = () => {
         </form>
       )}
 
-      {/* My Listings Section */}
-      <MyListings username={username} token={token} />
+      {/* Add Listing Button */}
+      <div className="text-center my-4">
+        <Link to="/add-venue" className="btn btn-success">
+          Add Venue
+        </Link>
+      </div>
+
+      {/* My Venues Section */}
+      <MyVenues username={username} token={token} />
     </div>
   );
 };
 
 export default Profile;
+
+
+
 
 
