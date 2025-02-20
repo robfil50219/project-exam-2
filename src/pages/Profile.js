@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getApiKeyOptions } from '../apiConfig';
+import MyListings from '../components/MyListings';
 
 const Profile = () => {
   const token = localStorage.getItem('token');
@@ -95,7 +96,7 @@ const Profile = () => {
         console.log('Updated profile data:', data);
         setSuccess('Profile updated successfully.');
         setUserData(data.data || data);
-        setEditMode(false); // hide the form after updating
+        setEditMode(false);
       })
       .catch((err) => {
         console.error('Error updating profile:', err);
@@ -109,7 +110,7 @@ const Profile = () => {
   return (
     <div className="container my-5">
       <h1 className="display-4 text-center mb-4">My Profile</h1>
-
+      
       {/* Display Profile Info */}
       <div className="row mb-4">
         <div className="col-md-4 text-center">
@@ -145,17 +146,14 @@ const Profile = () => {
 
       {success && <div className="alert alert-success">{success}</div>}
 
-      {/* Toggle Button for Editing */}
       {!editMode ? (
-        <div className="text-center">
+        <div className="text-center mb-4">
           <button className="btn btn-secondary" onClick={() => setEditMode(true)}>
             Edit Profile
           </button>
         </div>
       ) : (
-        // Edit Form
         <form onSubmit={handleSubmit}>
-          {/* Bio */}
           <div className="mb-3">
             <label htmlFor="bio" className="form-label">Bio</label>
             <textarea
@@ -168,7 +166,6 @@ const Profile = () => {
               maxLength="160"
             ></textarea>
           </div>
-          {/* Avatar URL */}
           <div className="mb-3">
             <label htmlFor="avatarUrl" className="form-label">Avatar URL</label>
             <input
@@ -180,7 +177,6 @@ const Profile = () => {
               onChange={handleChange}
             />
           </div>
-          {/* Avatar Alt */}
           <div className="mb-3">
             <label htmlFor="avatarAlt" className="form-label">Avatar Alt Text</label>
             <input
@@ -193,7 +189,6 @@ const Profile = () => {
               maxLength="120"
             />
           </div>
-          {/* Banner URL */}
           <div className="mb-3">
             <label htmlFor="bannerUrl" className="form-label">Banner URL</label>
             <input
@@ -205,7 +200,6 @@ const Profile = () => {
               onChange={handleChange}
             />
           </div>
-          {/* Banner Alt */}
           <div className="mb-3">
             <label htmlFor="bannerAlt" className="form-label">Banner Alt Text</label>
             <input
@@ -218,7 +212,6 @@ const Profile = () => {
               maxLength="120"
             />
           </div>
-          {/* Venue Manager */}
           <div className="form-check mb-3">
             <input
               type="checkbox"
@@ -240,9 +233,13 @@ const Profile = () => {
           </div>
         </form>
       )}
+
+      {/* My Listings Section */}
+      <MyListings username={username} token={token} />
     </div>
   );
 };
 
 export default Profile;
+
 
