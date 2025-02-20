@@ -1,3 +1,4 @@
+// src/pages/AddVenue.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getApiKeyOptions } from '../apiConfig';
@@ -12,18 +13,29 @@ const AddVenue = () => {
     price: '',
     maxGuests: '',
     mediaUrl: 'https://example.com/image.jpg', // default image URL
+
     // Meta fields
     wifi: false,
     parking: false,
     breakfast: false,
     pets: false,
+
+    // Location fields (optional)
+    address: '',
+    city: '',
+    zip: '',
+    country: '',
+    continent: '', // use empty string instead of null
+    lat: '',
+    lng: '',
   });
+
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setForm((prev) => ({
+    setForm(prev => ({
       ...prev,
       [name]: type === 'checkbox' ? checked : value,
     }));
@@ -34,7 +46,18 @@ const AddVenue = () => {
     setError('');
     setSuccess('');
 
-    // Construct payload with trimmed values and meta object
+    // Build the location object using empty strings for empty text fields and 0 for numbers.
+    const location = {
+      address: form.address.trim() || "",
+      city: form.city.trim() || "",
+      zip: form.zip.trim() || "",
+      country: form.country.trim() || "",
+      continent: form.continent.trim() || "", // default to empty string
+      lat: form.lat.trim() ? parseFloat(form.lat) : 0,
+      lng: form.lng.trim() ? parseFloat(form.lng) : 0,
+    };
+
+    // Construct payload with trimmed values
     const payload = {
       name: form.name.trim(),
       description: form.description.trim(),
@@ -49,7 +72,7 @@ const AddVenue = () => {
         breakfast: form.breakfast,
         pets: form.pets,
       },
-      // You can also provide a location object if needed, e.g., location: null
+      location: location,
     };
 
     console.log('Add Venue payload:', JSON.stringify(payload));
@@ -60,7 +83,7 @@ const AddVenue = () => {
         headers: {
           'Content-Type': 'application/json',
           ...getApiKeyOptions(token).headers,
-          // Include Authorization header if required:
+          // Uncomment the line below if your API requires an Authorization header:
           // 'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify(payload),
@@ -201,6 +224,85 @@ const AddVenue = () => {
           />
           <label className="form-check-label" htmlFor="pets">Pets Allowed</label>
         </div>
+        {/* Location Data */}
+        <h5 className="mt-4">Location (Optional)</h5>
+        <div className="mb-3">
+          <label htmlFor="address" className="form-label">Address</label>
+          <input 
+            type="text" 
+            name="address" 
+            id="address" 
+            className="form-control" 
+            value={form.address} 
+            onChange={handleChange} 
+          />
+        </div>
+        <div className="mb-3">
+          <label htmlFor="city" className="form-label">City</label>
+          <input 
+            type="text" 
+            name="city" 
+            id="city" 
+            className="form-control" 
+            value={form.city} 
+            onChange={handleChange} 
+          />
+        </div>
+        <div className="mb-3">
+          <label htmlFor="zip" className="form-label">Zip</label>
+          <input 
+            type="text" 
+            name="zip" 
+            id="zip" 
+            className="form-control" 
+            value={form.zip} 
+            onChange={handleChange} 
+          />
+        </div>
+        <div className="mb-3">
+          <label htmlFor="country" className="form-label">Country</label>
+          <input 
+            type="text" 
+            name="country" 
+            id="country" 
+            className="form-control" 
+            value={form.country} 
+            onChange={handleChange} 
+          />
+        </div>
+        <div className="mb-3">
+          <label htmlFor="continent" className="form-label">Continent</label>
+          <input 
+            type="text" 
+            name="continent" 
+            id="continent" 
+            className="form-control" 
+            value={form.continent} 
+            onChange={handleChange} 
+          />
+        </div>
+        <div className="mb-3">
+          <label htmlFor="lat" className="form-label">Latitude</label>
+          <input 
+            type="number" 
+            name="lat" 
+            id="lat" 
+            className="form-control" 
+            value={form.lat} 
+            onChange={handleChange} 
+          />
+        </div>
+        <div className="mb-3">
+          <label htmlFor="lng" className="form-label">Longitude</label>
+          <input 
+            type="number" 
+            name="lng" 
+            id="lng" 
+            className="form-control" 
+            value={form.lng} 
+            onChange={handleChange} 
+          />
+        </div>
         <button type="submit" className="btn btn-primary">Create Venue</button>
       </form>
     </div>
@@ -208,6 +310,10 @@ const AddVenue = () => {
 };
 
 export default AddVenue;
+
+
+
+
 
 
 
