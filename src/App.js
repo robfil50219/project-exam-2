@@ -1,3 +1,4 @@
+// src/App.js
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
@@ -6,26 +7,31 @@ import Home from './pages/Home';
 import VenueDetails from './pages/VenueDetails';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import About from './pages/About';
 
 function App() {
   return (
     <Router>
-      <Header />
-      <main className="min-h-screen">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/venues/:id" element={<VenueDetails />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          {/* Add additional routes as needed */}
-        </Routes>
-      </main>
-      <Footer />
+      <div className="d-flex flex-column min-vh-100">
+        <Header />
+        <main className="flex-fill">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/venues/:id" element={<VenueDetails />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/about" element={<About />} />
+          </Routes>
+        </main>
+        <Footer />
+      </div>
     </Router>
   );
 }
 
 export default App;
+
+
 
 
 
