@@ -1,4 +1,3 @@
-// src/App.js
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
@@ -8,6 +7,7 @@ import VenueDetails from './pages/VenueDetails';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import About from './pages/About';
+import Contact from './pages/Contact'; 
 
 function App() {
   return (
@@ -21,6 +21,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
           </Routes>
         </main>
         <Footer />
@@ -30,6 +31,7 @@ function App() {
 }
 
 export default App;
+
 
 
 
