@@ -1,4 +1,3 @@
-// src/components/VenueList.js
 import React, { useEffect, useState } from 'react';
 import VenueCard from './VenueCard';
 
@@ -16,8 +15,7 @@ const VenueList = () => {
         return res.json();
       })
       .then((data) => {
-        console.log('API response:', data);
-        // Adjust based on the actual structure
+        // If the API response is wrapped in an object (e.g., { data: [...] }), adjust accordingly.
         setVenues(Array.isArray(data) ? data : data.data || []);
         setLoading(false);
       })
@@ -28,20 +26,23 @@ const VenueList = () => {
       });
   }, []);
 
-  if (loading) return <p>Loading venues...</p>;
-  if (error) return <p>Error: {error}</p>;
+  if (loading) return <p className="text-center my-4">Loading venues...</p>;
+  if (error) return <p className="text-center text-danger my-4">Error: {error}</p>;
 
   return (
-    <div className="container mx-auto p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      {venues.length === 0 ? (
-        <p>No venues available</p>
-      ) : (
-        venues.map((venue) => <VenueCard key={venue.id} venue={venue} />)
-      )}
+    <div className="container my-4">
+      <div className="row">
+        {venues.map((venue) => (
+          <div key={venue.id} className="col-12 col-md-6 col-lg-4 mb-4">
+            <VenueCard venue={venue} />
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
 
 export default VenueList;
+
 
 
