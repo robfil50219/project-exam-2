@@ -1,10 +1,11 @@
-// src/App.js
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Home from './pages/Home';
 import VenueDetails from './pages/VenueDetails';
+import Login from './pages/Login';
+import Register from './pages/Register';
 
 function App() {
   return (
@@ -14,7 +15,9 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/venues/:id" element={<VenueDetails />} />
-          {/* Add more routes as needed */}
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          {/* Add additional routes as needed */}
         </Routes>
       </main>
       <Footer />
@@ -23,5 +26,6 @@ function App() {
 }
 
 export default App;
+
 
 
