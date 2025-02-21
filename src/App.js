@@ -10,6 +10,7 @@ import About from './pages/About';
 import Contact from './pages/Contact';
 import Profile from './pages/Profile';
 import AddVenue from './pages/AddVenue';
+import BookVenue from './pages/BookVenue';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
             <Route path="/contact" element={<Contact />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/add-venue" element={<AddVenue />} />
+            <Route path="/book-venue/:id" element={<BookVenue />} />
           </Routes>
         </main>
         <Footer />
@@ -35,6 +37,7 @@ function App() {
 }
 
 export default App;
+
 
 
 
