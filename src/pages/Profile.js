@@ -2,7 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { getApiKeyOptions } from '../apiConfig';
-import MyVenues from '../components/MyVenues'; // Changed from MyListings to MyVenues
+import MyVenues from '../components/MyVenues'; // Your venues component
+import MyBookings from '../components/MyBookings'; // New bookings component
 
 const Profile = () => {
   const token = localStorage.getItem('token');
@@ -236,7 +237,7 @@ const Profile = () => {
         </form>
       )}
 
-      {/* Add Listing Button */}
+      {/* Add Venue Button */}
       <div className="text-center my-4">
         <Link to="/add-venue" className="btn btn-success">
           Add Venue
@@ -245,11 +246,15 @@ const Profile = () => {
 
       {/* My Venues Section */}
       <MyVenues username={username} token={token} />
+
+      {/* My Bookings Section */}
+      <MyBookings />
     </div>
   );
 };
 
 export default Profile;
+
 
 
 

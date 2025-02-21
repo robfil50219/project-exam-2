@@ -28,6 +28,7 @@ function App() {
             <Route path="/profile" element={<Profile />} />
             <Route path="/add-venue" element={<AddVenue />} />
             <Route path="/book-venue/:id" element={<BookVenue />} />
+            <Route path="/venues/:id" element={<VenueDetails />} />
           </Routes>
         </main>
         <Footer />
