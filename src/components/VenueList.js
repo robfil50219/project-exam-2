@@ -114,9 +114,3 @@ const VenueList = () => {
 };
 
 export default VenueList;
-
-
-
-
-
-

@@ -44,6 +44,3 @@ const VenueCard = ({ venue }) => {
 };
 
 export default VenueCard;
-
-
-

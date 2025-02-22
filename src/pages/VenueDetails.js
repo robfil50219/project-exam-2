@@ -65,5 +65,3 @@ const VenueDetails = () => {
 };
 
 export default VenueDetails;
-
-

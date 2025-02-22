@@ -121,10 +121,3 @@ const NewestVenuesCarousel = () => {
 };
 
 export default NewestVenuesCarousel;
-
-
-
-
-
-
-
