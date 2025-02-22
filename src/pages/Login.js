@@ -36,7 +36,7 @@ const Login = () => {
       // Update: store token from data.data.accessToken
       localStorage.setItem('token', data.data.accessToken);
       localStorage.setItem('username', data.data.name);
-      navigate('/profile');
+      navigate('/');
     } catch (err) {
       console.error(err);
       setError(err.message);
