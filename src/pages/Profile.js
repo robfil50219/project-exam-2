@@ -2,8 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { getApiKeyOptions } from '../apiConfig';
-import MyVenues from '../components/MyVenues'; // Your venues component
-import MyBookings from '../components/MyBookings'; // New bookings component
+import MyVenues from '../components/MyVenues';
+import MyBookings from '../components/MyBookings';
 
 const Profile = () => {
   const token = localStorage.getItem('token');
@@ -111,130 +111,138 @@ const Profile = () => {
 
   return (
     <div className="container my-5">
-      <h1 className="display-4 text-center mb-4">My Profile</h1>
-      
-      {/* Display Profile Info */}
-      <div className="row mb-4">
-        <div className="col-md-4 text-center">
-          {userData.avatar.url ? (
-            <img
-              src={userData.avatar.url}
-              alt={userData.avatar.alt || 'Avatar'}
-              className="img-fluid rounded-circle mb-3"
-              style={{ maxWidth: '200px' }}
-            />
-          ) : (
-            <div className="alert alert-secondary">No Avatar Available</div>
-          )}
-        </div>
-        <div className="col-md-8">
-          <h3>{userData.name}</h3>
-          <p><strong>Email:</strong> {userData.email}</p>
-          <p><strong>Bio:</strong> {userData.bio || 'No bio provided.'}</p>
-          <p><strong>Venue Manager:</strong> {userData.venueManager ? 'Yes' : 'No'}</p>
-        </div>
-      </div>
-
+      {/* Banner at the top */}
       {userData.banner.url && (
         <div className="mb-4">
           <img
             src={userData.banner.url}
             alt={userData.banner.alt || 'Banner'}
-            className="img-fluid w-100"
+            className="img-fluid w-100 rounded"
             style={{ maxHeight: '300px', objectFit: 'cover' }}
           />
         </div>
       )}
-
-      {success && <div className="alert alert-success">{success}</div>}
-
-      {/* Toggle Edit Form */}
-      {!editMode ? (
-        <div className="text-center mb-4">
-          <button className="btn btn-secondary" onClick={() => setEditMode(true)}>
+      
+      {/* Profile Card */}
+      <div className="card shadow mb-4">
+        <div className="card-header d-flex justify-content-between align-items-center">
+          <h2 className="mb-0">My Profile</h2>
+          <button className="btn btn-outline-secondary btn-sm" onClick={() => setEditMode(true)}>
             Edit Profile
           </button>
         </div>
-      ) : (
-        <form onSubmit={handleSubmit}>
-          <div className="mb-3">
-            <label htmlFor="bio" className="form-label">Bio</label>
-            <textarea
-              name="bio"
-              id="bio"
-              className="form-control"
-              rows="3"
-              value={userData.bio}
-              onChange={handleChange}
-              maxLength="160"
-            ></textarea>
+        <div className="card-body">
+          <div className="row align-items-center">
+            <div className="col-md-4 text-center">
+              {userData.avatar.url ? (
+                <img
+                  src={userData.avatar.url}
+                  alt={userData.avatar.alt || 'Avatar'}
+                  className="img-fluid rounded-circle mb-3"
+                  style={{ maxWidth: '200px' }}
+                />
+              ) : (
+                <div className="alert alert-secondary">No Avatar Available</div>
+              )}
+            </div>
+            <div className="col-md-8">
+              <h3>{userData.name}</h3>
+              <p><strong>Email:</strong> {userData.email}</p>
+              <p><strong>Bio:</strong> {userData.bio || 'No bio provided.'}</p>
+              <p><strong>Venue Manager:</strong> {userData.venueManager ? 'Yes' : 'No'}</p>
+            </div>
           </div>
-          <div className="mb-3">
-            <label htmlFor="avatarUrl" className="form-label">Avatar URL</label>
-            <input
-              type="text"
-              name="avatar.url"
-              id="avatarUrl"
-              className="form-control"
-              value={userData.avatar.url}
-              onChange={handleChange}
-            />
+
+          {success && <div className="alert alert-success mt-3">{success}</div>}
+        </div>
+      </div>
+
+      {/* Edit Profile Form (inside the same card if edit mode is active) */}
+      {editMode && (
+        <div className="card shadow mb-4">
+          <div className="card-body">
+            <h4 className="mb-3">Edit Profile</h4>
+            <form onSubmit={handleSubmit}>
+              <div className="mb-3">
+                <label htmlFor="bio" className="form-label">Bio</label>
+                <textarea
+                  name="bio"
+                  id="bio"
+                  className="form-control"
+                  rows="3"
+                  value={userData.bio}
+                  onChange={handleChange}
+                  maxLength="160"
+                ></textarea>
+              </div>
+              <div className="mb-3">
+                <label htmlFor="avatarUrl" className="form-label">Avatar URL</label>
+                <input
+                  type="text"
+                  name="avatar.url"
+                  id="avatarUrl"
+                  className="form-control"
+                  value={userData.avatar.url}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="avatarAlt" className="form-label">Avatar Alt Text</label>
+                <input
+                  type="text"
+                  name="avatar.alt"
+                  id="avatarAlt"
+                  className="form-control"
+                  value={userData.avatar.alt}
+                  onChange={handleChange}
+                  maxLength="120"
+                />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="bannerUrl" className="form-label">Banner URL</label>
+                <input
+                  type="text"
+                  name="banner.url"
+                  id="bannerUrl"
+                  className="form-control"
+                  value={userData.banner.url}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="bannerAlt" className="form-label">Banner Alt Text</label>
+                <input
+                  type="text"
+                  name="banner.alt"
+                  id="bannerAlt"
+                  className="form-control"
+                  value={userData.banner.alt}
+                  onChange={handleChange}
+                  maxLength="120"
+                />
+              </div>
+              <div className="form-check mb-3">
+                <input
+                  type="checkbox"
+                  name="venueManager"
+                  id="venueManager"
+                  className="form-check-input"
+                  checked={userData.venueManager}
+                  onChange={handleChange}
+                />
+                <label className="form-check-label" htmlFor="venueManager">
+                  Venue Manager
+                </label>
+              </div>
+              <div className="d-flex justify-content-between">
+                <button type="submit" className="btn btn-primary">Update Profile</button>
+                <button type="button" className="btn btn-outline-secondary" onClick={() => setEditMode(false)}>
+                  Cancel
+                </button>
+              </div>
+            </form>
           </div>
-          <div className="mb-3">
-            <label htmlFor="avatarAlt" className="form-label">Avatar Alt Text</label>
-            <input
-              type="text"
-              name="avatar.alt"
-              id="avatarAlt"
-              className="form-control"
-              value={userData.avatar.alt}
-              onChange={handleChange}
-              maxLength="120"
-            />
-          </div>
-          <div className="mb-3">
-            <label htmlFor="bannerUrl" className="form-label">Banner URL</label>
-            <input
-              type="text"
-              name="banner.url"
-              id="bannerUrl"
-              className="form-control"
-              value={userData.banner.url}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="mb-3">
-            <label htmlFor="bannerAlt" className="form-label">Banner Alt Text</label>
-            <input
-              type="text"
-              name="banner.alt"
-              id="bannerAlt"
-              className="form-control"
-              value={userData.banner.alt}
-              onChange={handleChange}
-              maxLength="120"
-            />
-          </div>
-          <div className="form-check mb-3">
-            <input
-              type="checkbox"
-              name="venueManager"
-              id="venueManager"
-              className="form-check-input"
-              checked={userData.venueManager}
-              onChange={handleChange}
-            />
-            <label className="form-check-label" htmlFor="venueManager">
-              Venue Manager
-            </label>
-          </div>
-          <div className="d-flex justify-content-between">
-            <button type="submit" className="btn btn-primary">Update Profile</button>
-            <button type="button" className="btn btn-outline-secondary" onClick={() => setEditMode(false)}>
-              Cancel
-            </button>
-          </div>
-        </form>
+        </div>
       )}
 
       {/* Add Venue Button */}
@@ -254,3 +262,4 @@ const Profile = () => {
 };
 
 export default Profile;
+
