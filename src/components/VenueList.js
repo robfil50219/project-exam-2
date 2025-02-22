@@ -1,3 +1,4 @@
+// src/components/VenueList.js
 import React, { useEffect, useState } from 'react';
 import VenueCard from './VenueCard';
 import { useLocation } from 'react-router-dom';
@@ -6,8 +7,8 @@ const VenueList = () => {
   const [venues, setVenues] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  
-  // Get the query parameter from the URL
+
+  // Read the query parameter from the URL
   const location = useLocation();
   const query = new URLSearchParams(location.search).get('q') || '';
 
@@ -20,7 +21,6 @@ const VenueList = () => {
         return res.json();
       })
       .then((data) => {
-        // If the API response is wrapped in an object, adjust accordingly.
         setVenues(Array.isArray(data) ? data : data.data || []);
         setLoading(false);
       })
@@ -42,7 +42,8 @@ const VenueList = () => {
 
   return (
     <div className="container my-4">
-      {query && <p>Showing results for "{query}"</p>}
+       <h2 className="mb-4 text-center">Venue Listings</h2>
+      {query && <p className="mb-3">Showing results for "{query}"</p>}
       <div className="row">
         {filteredVenues.length > 0 ? (
           filteredVenues.map((venue) => (
