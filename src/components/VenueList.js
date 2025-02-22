@@ -1,4 +1,3 @@
-// src/components/VenueList.js
 import React, { useEffect, useState } from 'react';
 import VenueCard from './VenueCard';
 import { useLocation } from 'react-router-dom';
