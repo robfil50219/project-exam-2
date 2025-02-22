@@ -1,61 +1,45 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 const Header = () => {
-  const token = localStorage.getItem('token');
+  const [query, setQuery] = useState('');
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    navigate('/');
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    if (query.trim()) {
+      // Navigate to the search page with the query as a URL parameter
+      navigate(`/search?q=${encodeURIComponent(query.trim())}`);
+    }
   };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-primary shadow">
-      <div className="container">
-        <Link className="navbar-brand" to="/">Holidaze</Link>
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
-        <div className="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
-            <li className="nav-item">
-              <Link className="nav-link" to="/">Home</Link>
-            </li>
-            {token ? (
-              <>
-                <li className="nav-item">
-                  <Link className="nav-link" to="/profile">Profile</Link>
-                </li>
-                <li className="nav-item">
-                  <button className="btn nav-link" onClick={handleLogout}>
-                    Logout
-                  </button>
-                </li>
-              </>
-            ) : (
-              <>
-                <li className="nav-item">
-                  <Link className="nav-link" to="/login">Login</Link>
-                </li>
-                <li className="nav-item">
-                  <Link className="nav-link" to="/register">Register</Link>
-                </li>
-              </>
-            )}
-          </ul>
-        </div>
+    <header className="bg-dark text-light py-3">
+      <div className="container d-flex justify-content-between align-items-center">
+        <Link to="/" className="text-light text-decoration-none">
+          <h1 className="h3 m-0">Holidaze</h1>
+        </Link>
+        <form className="d-flex" onSubmit={handleSearchSubmit}>
+          <input
+            type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            className="form-control me-2"
+            placeholder="Search venues..."
+          />
+          <button type="submit" className="btn btn-outline-light">
+            Search
+          </button>
+        </form>
+        <nav>
+          <Link to="/profile" className="text-light me-3">Profile</Link>
+          <Link to="/login" className="text-light me-3">Login</Link>
+          <Link to="/register" className="text-light">Register</Link>
+        </nav>
       </div>
-    </nav>
+    </header>
   );
 };
 
 export default Header;
+
