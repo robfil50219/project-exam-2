@@ -1,3 +1,4 @@
+// src/components/NewestVenuesCarousel.js
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getApiKeyOptions } from '../apiConfig';
@@ -26,8 +27,8 @@ const NewestVenuesCarousel = () => {
         const sortedVenues = fetchedVenues.sort(
           (a, b) => new Date(b.created) - new Date(a.created)
         );
-        // Take top 10 newest venues
-        setVenues(sortedVenues.slice(0, 10));
+        // Take top 5 newest venues
+        setVenues(sortedVenues.slice(0, 5));
         setLoading(false);
       })
       .catch(err => {
@@ -41,12 +42,12 @@ const NewestVenuesCarousel = () => {
   if (venues.length === 0) return <p className="text-center my-4">No venues available.</p>;
 
   return (
-    <div className="container-fluid px-0">
+    <div className="container-fluid px-0 d-none d-md-block">
       <h2 className="mb-4 text-center">Newest Venues</h2>
       <div id="newestVenuesCarousel" className="carousel slide mb-4" data-bs-ride="carousel">
         <div className="carousel-inner">
           {venues.map((venue, index) => {
-            // Use the first image from media or fallback to an Unsplash placeholder
+            // Use first image from media or fallback to an Unsplash placeholder
             const imgSrc =
               venue.media && venue.media.length > 0
                 ? venue.media[0].url

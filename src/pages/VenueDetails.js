@@ -1,5 +1,4 @@
-// src/pages/VenueDetails.js
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { getApiKeyOptions } from '../apiConfig';
 
@@ -28,37 +27,93 @@ const VenueDetails = () => {
       });
   }, [id]);
 
-  if (loading) return <p>Loading venue details...</p>;
-  if (error) return <p>Error: {error}</p>;
-  if (!venue) return <p>No venue found</p>;
+  if (loading) return <p className="text-center my-4">Loading venue details...</p>;
+  if (error) return <p className="text-center text-danger my-4">Error: {error}</p>;
+  if (!venue) return <p className="text-center my-4">No venue found</p>;
 
   return (
     <div className="container my-5">
-      <h1>{venue.name}</h1>
-      <p>{venue.description}</p>
-      <p>
-        <strong>Price:</strong> ${venue.price}
-      </p>
-      <p>
-        <strong>Max Guests:</strong> {venue.maxGuests}
-      </p>
-      <p>
-        <strong>Rating:</strong> {venue.rating}
-      </p>
-      {venue.media && venue.media.length > 0 && (
-        <div className="my-4">
-          <img
-            src={venue.media[0].url}
-            alt={venue.media[0].alt || venue.name}
-            className="img-fluid"
-          />
+      <h1 className="mb-4 text-center">{venue.name}</h1>
+      <div className="card shadow">
+        <div className="row g-0">
+          <div className="col-md-6">
+            {venue.media && venue.media.length > 1 ? (
+              // If there are multiple images, display a carousel slideshow
+              <div id="venueImagesCarousel" className="carousel slide" data-bs-ride="carousel">
+                <div className="carousel-inner">
+                  {venue.media.map((img, index) => (
+                    <div key={index} className={`carousel-item ${index === 0 ? 'active' : ''}`}>
+                      <img
+                        src={img.url}
+                        alt={img.alt || venue.name}
+                        className="d-block w-100"
+                        style={{ objectFit: 'cover', height: '100%' }}
+                      />
+                    </div>
+                  ))}
+                </div>
+                <button
+                  className="carousel-control-prev"
+                  type="button"
+                  data-bs-target="#venueImagesCarousel"
+                  data-bs-slide="prev"
+                >
+                  <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span className="visually-hidden">Previous</span>
+                </button>
+                <button
+                  className="carousel-control-next"
+                  type="button"
+                  data-bs-target="#venueImagesCarousel"
+                  data-bs-slide="next"
+                >
+                  <span className="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span className="visually-hidden">Next</span>
+                </button>
+              </div>
+            ) : (
+              // If only one image exists (or none), display it as a static image
+              <img
+                src={
+                  venue.media && venue.media.length > 0
+                    ? venue.media[0].url
+                    : 'https://source.unsplash.com/800x600/?hotel'
+                }
+                alt={
+                  venue.media && venue.media.length > 0
+                    ? venue.media[0].alt || venue.name
+                    : venue.name
+                }
+                className="img-fluid rounded-start"
+                style={{ objectFit: 'cover', height: '100%' }}
+              />
+            )}
+          </div>
+          <div className={venue.media && venue.media.length > 0 ? "col-md-6" : "col-12"}>
+            <div className="card-body">
+              <p className="card-text">{venue.description}</p>
+              <p className="card-text">
+                <strong>Price:</strong> ${venue.price}
+              </p>
+              <p className="card-text">
+                <strong>Max Guests:</strong> {venue.maxGuests}
+              </p>
+              <p className="card-text">
+                <strong>Rating:</strong> {venue.rating}
+              </p>
+              {venue.location && (
+                <p className="card-text">
+                  <strong>Location:</strong> {venue.location.address}, {venue.location.city}, {venue.location.country}
+                </p>
+              )}
+              <div className="mt-4">
+                <Link to={`/book-venue/${venue.id}`} className="btn btn-primary btn-lg">
+                  Book Now
+                </Link>
+              </div>
+            </div>
+          </div>
         </div>
-      )}
-      {/* Book Now Button */}
-      <div className="my-4">
-        <Link to={`/book-venue/${venue.id}`} className="btn btn-primary">
-          Book Now
-        </Link>
       </div>
     </div>
   );
