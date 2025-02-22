@@ -9,7 +9,8 @@ const VenueDetails = () => {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    fetch(`https://v2.api.noroff.dev/holidaze/venues/${id}`, getApiKeyOptions())
+    // Include _owner=true to fetch owner/profile info
+    fetch(`https://v2.api.noroff.dev/holidaze/venues/${id}?_owner=true`, getApiKeyOptions())
       .then((res) => {
         if (!res.ok) {
           throw new Error('Error fetching venue details');
@@ -34,11 +35,10 @@ const VenueDetails = () => {
   return (
     <div className="container my-5">
       <h1 className="mb-4 text-center">{venue.name}</h1>
-      <div className="card shadow">
+      <div className="card shadow mb-4">
         <div className="row g-0">
-          <div className="col-md-6">
-            {venue.media && venue.media.length > 1 ? (
-              // If there are multiple images, display a carousel slideshow
+          {venue.media && venue.media.length > 1 ? (
+            <div className="col-md-6">
               <div id="venueImagesCarousel" className="carousel slide" data-bs-ride="carousel">
                 <div className="carousel-inner">
                   {venue.media.map((img, index) => (
@@ -71,8 +71,9 @@ const VenueDetails = () => {
                   <span className="visually-hidden">Next</span>
                 </button>
               </div>
-            ) : (
-              // If only one image exists (or none), display it as a static image
+            </div>
+          ) : (
+            <div className="col-md-6">
               <img
                 src={
                   venue.media && venue.media.length > 0
@@ -87,20 +88,14 @@ const VenueDetails = () => {
                 className="img-fluid rounded-start"
                 style={{ objectFit: 'cover', height: '100%' }}
               />
-            )}
-          </div>
+            </div>
+          )}
           <div className={venue.media && venue.media.length > 0 ? "col-md-6" : "col-12"}>
             <div className="card-body">
               <p className="card-text">{venue.description}</p>
-              <p className="card-text">
-                <strong>Price:</strong> ${venue.price}
-              </p>
-              <p className="card-text">
-                <strong>Max Guests:</strong> {venue.maxGuests}
-              </p>
-              <p className="card-text">
-                <strong>Rating:</strong> {venue.rating}
-              </p>
+              <p className="card-text"><strong>Price:</strong> ${venue.price}</p>
+              <p className="card-text"><strong>Max Guests:</strong> {venue.maxGuests}</p>
+              <p className="card-text"><strong>Rating:</strong> {venue.rating}</p>
               {venue.location && (
                 <p className="card-text">
                   <strong>Location:</strong> {venue.location.address}, {venue.location.city}, {venue.location.country}
@@ -115,6 +110,31 @@ const VenueDetails = () => {
           </div>
         </div>
       </div>
+      
+      {/* Owner / Profile Information */}
+      {venue.owner ? (
+        <div className="card shadow p-4">
+          <h4>Hosted by: {venue.owner.name}</h4>
+          <div className="d-flex align-items-center">
+            {venue.owner.avatar && (
+              <img
+                src={venue.owner.avatar.url}
+                alt={venue.owner.avatar.alt || venue.owner.name}
+                className="rounded-circle me-3"
+                style={{ width: '60px', height: '60px', objectFit: 'cover' }}
+              />
+            )}
+            <div>
+              <p className="mb-0">{venue.owner.bio || 'No bio provided.'}</p>
+              <Link to={`/profile/${venue.owner.id}`} className="btn btn-link p-0">
+                View Profile
+              </Link>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <p className="text-center">Owner information not available.</p>
+      )}
     </div>
   );
 };
