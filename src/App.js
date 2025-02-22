@@ -11,6 +11,7 @@ import Contact from './pages/Contact';
 import Profile from './pages/Profile';
 import AddVenue from './pages/AddVenue';
 import BookVenue from './pages/BookVenue';
+import VenueSearch from './components/VenueSearch';
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
             <Route path="/add-venue" element={<AddVenue />} />
             <Route path="/book-venue/:id" element={<BookVenue />} />
             <Route path="/venues/:id" element={<VenueDetails />} />
+            <Route path="/search" element={<VenueSearch />} />
           </Routes>
         </main>
         <Footer />
