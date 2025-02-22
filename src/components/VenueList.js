@@ -54,7 +54,7 @@ const VenueList = () => {
   const displayedVenues = sortedVenues.slice(0, visibleCount);
 
   const handleShowMore = () => {
-    setVisibleCount((prev) => Math.min(prev + 20, sortedVenues.length));
+    setVisibleCount((prev) => Math.min(prev + 21, sortedVenues.length));
   };
 
   const handleShowLess = () => {
@@ -103,7 +103,7 @@ const VenueList = () => {
             Show More
           </button>
         )}
-        {visibleCount > 20 && (
+        {visibleCount > 21 && (
           <button className="btn btn-secondary" onClick={handleShowLess}>
             Show Less
           </button>
