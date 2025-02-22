@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { getApiKeyOptions } from '../apiConfig';
 
 const MyVenues = ({ username, token }) => {
@@ -29,6 +30,30 @@ const MyVenues = ({ username, token }) => {
       });
   }, [username, token]);
 
+  const handleDelete = async (venueId) => {
+    if (!window.confirm('Are you sure you want to delete this venue?')) {
+      return;
+    }
+    try {
+      const response = await fetch(`https://v2.api.noroff.dev/holidaze/venues/${venueId}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          ...getApiKeyOptions(token).headers,
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+      if (!response.ok) {
+        throw new Error('Failed to delete venue');
+      }
+      // Remove the deleted venue from state
+      setVenues(prevVenues => prevVenues.filter(venue => venue.id !== venueId));
+    } catch (err) {
+      console.error(err);
+      alert(err.message);
+    }
+  };
+
   if (loading) return <p>Loading your venues...</p>;
   if (error) return <p className="text-danger">Error loading venues: {error}</p>;
   if (venues.length === 0) return <p>You don't have any venues yet.</p>;
@@ -51,6 +76,17 @@ const MyVenues = ({ username, token }) => {
               <div className="card-body">
                 <h5 className="card-title">{venue.name}</h5>
                 <p className="card-text">{venue.description.substring(0, 100)}...</p>
+              </div>
+              <div className="card-footer d-flex justify-content-between">
+                <Link to={`/venues/${venue.id}`} className="btn btn-outline-primary btn-sm">
+                  View Details
+                </Link>
+                <button 
+                  className="btn btn-outline-danger btn-sm"
+                  onClick={() => handleDelete(venue.id)}
+                >
+                  Delete
+                </button>
               </div>
             </div>
           </div>

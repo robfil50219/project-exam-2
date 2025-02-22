@@ -1,3 +1,4 @@
+// src/pages/VenueDetails.js
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { getApiKeyOptions } from '../apiConfig';
@@ -114,7 +115,7 @@ const VenueDetails = () => {
       {/* Owner / Profile Information */}
       {venue.owner ? (
         <div className="card shadow p-4">
-          <h4>Hosted by: {venue.owner.name}</h4>
+          <h4 className="mb-3">Hosted by: {venue.owner.name}</h4>
           <div className="d-flex align-items-center">
             {venue.owner.avatar && (
               <img
@@ -125,10 +126,9 @@ const VenueDetails = () => {
               />
             )}
             <div>
-              <p className="mb-0">{venue.owner.bio || 'No bio provided.'}</p>
-              <Link to={`/profile/${venue.owner.id}`} className="btn btn-link p-0">
-                View Profile
-              </Link>
+              <p className="mb-1"><strong>Email:</strong> {venue.owner.email || 'Not provided'}</p>
+              <p className="mb-1"><strong>Bio:</strong> {venue.owner.bio || 'No bio provided.'}</p>
+              {/* Add any other owner details as needed */}
             </div>
           </div>
         </div>

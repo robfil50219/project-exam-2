@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { getApiKeyOptions } from '../apiConfig';
 
 const AddVenue = () => {
-  const token = localStorage.getItem('token'); // if required by the API
+  const token = localStorage.getItem('token'); 
   const navigate = useNavigate();
 
   const [form, setForm] = useState({
@@ -13,29 +13,26 @@ const AddVenue = () => {
     price: '',
     maxGuests: '',
     mediaUrl: 'https://example.com/image.jpg', // default image URL
-
     // Meta fields
     wifi: false,
     parking: false,
     breakfast: false,
     pets: false,
-
     // Location fields (optional)
     address: '',
     city: '',
     zip: '',
     country: '',
-    continent: '', // use empty string instead of null
+    continent: '',
     lat: '',
     lng: '',
   });
-
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setForm(prev => ({
+    setForm((prev) => ({
       ...prev,
       [name]: type === 'checkbox' ? checked : value,
     }));
@@ -46,13 +43,13 @@ const AddVenue = () => {
     setError('');
     setSuccess('');
 
-    // Build the location object using empty strings for empty text fields and 0 for numbers.
+    // Build the location object, converting empty continent to null
     const location = {
       address: form.address.trim() || "",
       city: form.city.trim() || "",
       zip: form.zip.trim() || "",
       country: form.country.trim() || "",
-      continent: form.continent.trim() || "", // default to empty string
+      continent: form.continent.trim() === "" ? null : form.continent.trim(),
       lat: form.lat.trim() ? parseFloat(form.lat) : 0,
       lng: form.lng.trim() ? parseFloat(form.lng) : 0,
     };
@@ -83,13 +80,15 @@ const AddVenue = () => {
         headers: {
           'Content-Type': 'application/json',
           ...getApiKeyOptions(token).headers,
-          // Uncomment the line below if your API requires an Authorization header:
-          // 'Authorization': `Bearer ${token}`,
+          'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify(payload),
       });
 
       if (!response.ok) {
+        // Log the error response for debugging
+        const errorData = await response.json();
+        console.error('Error response from API:', errorData);
         throw new Error(`Failed to create venue: ${response.statusText}`);
       }
 
