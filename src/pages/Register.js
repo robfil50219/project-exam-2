@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { getApiKeyOptions } from '../apiConfig';
 
 const Register = () => {
+  const navigate = useNavigate();
   const [form, setForm] = useState({
     name: '',
     email: '',
@@ -65,7 +67,12 @@ const Register = () => {
   
       const data = await response.json();
       console.log('Registration response:', data);
-      setSuccess('Registration successful. You can now log in.');
+      setSuccess('Registration successful. Redirecting to login...');
+      
+      // Redirect to login page after a short delay
+      setTimeout(() => {
+        navigate('/login');
+      }, 2000);
     } catch (err) {
       console.error(err);
       setError(err.message);
