@@ -42,17 +42,17 @@ const VenueList = () => {
 
   return (
     <div className="container my-4">
-       <h2 className="mb-4 text-center">Venue Listings</h2>
-      {query && <p className="mb-3">Showing results for "{query}"</p>}
+      <h2 className="mb-4 text-center">Venue Listings</h2>
+      {query && <p className="mb-3 text-center">Showing results for "{query}"</p>}
       <div className="row">
         {filteredVenues.length > 0 ? (
           filteredVenues.map((venue) => (
-            <div key={venue.id} className="col-12 col-md-6 col-lg-4 mb-4">
+            <div key={venue.id} className="col-12 col-md-6 col-lg-3 mb-4">
               <VenueCard venue={venue} />
             </div>
           ))
         ) : (
-          <p>No venues found.</p>
+          <p className="text-center">No venues found.</p>
         )}
       </div>
     </div>
@@ -60,6 +60,8 @@ const VenueList = () => {
 };
 
 export default VenueList;
+
+
 
 
 

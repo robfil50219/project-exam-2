@@ -1,4 +1,3 @@
-// src/components/NewestVenuesCarousel.js
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getApiKeyOptions } from '../apiConfig';
@@ -27,8 +26,8 @@ const NewestVenuesCarousel = () => {
         const sortedVenues = fetchedVenues.sort(
           (a, b) => new Date(b.created) - new Date(a.created)
         );
-        // Take top 5 newest venues
-        setVenues(sortedVenues.slice(0, 5));
+        // Take top 10 newest venues
+        setVenues(sortedVenues.slice(0, 10));
         setLoading(false);
       })
       .catch(err => {
@@ -44,10 +43,10 @@ const NewestVenuesCarousel = () => {
   return (
     <div className="container-fluid px-0">
       <h2 className="mb-4 text-center">Newest Venues</h2>
-      <div id="newestVenuesCarousel" className="carousel slide" data-bs-ride="carousel">
+      <div id="newestVenuesCarousel" className="carousel slide mb-4" data-bs-ride="carousel">
         <div className="carousel-inner">
           {venues.map((venue, index) => {
-            // Use the first image in media or fallback to an Unsplash placeholder
+            // Use the first image from media or fallback to an Unsplash placeholder
             const imgSrc =
               venue.media && venue.media.length > 0
                 ? venue.media[0].url
@@ -82,7 +81,7 @@ const NewestVenuesCarousel = () => {
                       <strong>Location:</strong> {locationString}
                     </p>
                   )}
-                  <Link to={`/venues/${venue.id}`} className="btn btn-outline-secondary btn-sm">
+                  <Link to={`/venues/${venue.id}`} className="btn btn-outline-light btn-sm">
                     View Details
                   </Link>
                 </div>
@@ -96,7 +95,11 @@ const NewestVenuesCarousel = () => {
           data-bs-target="#newestVenuesCarousel"
           data-bs-slide="prev"
         >
-          <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span
+            className="carousel-control-prev-icon"
+            aria-hidden="true"
+            style={{ filter: 'brightness(150%)' }}
+          ></span>
           <span className="visually-hidden">Previous</span>
         </button>
         <button
@@ -105,7 +108,11 @@ const NewestVenuesCarousel = () => {
           data-bs-target="#newestVenuesCarousel"
           data-bs-slide="next"
         >
-          <span className="carousel-control-next-icon" aria-hidden="true"></span>
+          <span
+            className="carousel-control-next-icon"
+            aria-hidden="true"
+            style={{ filter: 'brightness(150%)' }}
+          ></span>
           <span className="visually-hidden">Next</span>
         </button>
       </div>
@@ -114,6 +121,9 @@ const NewestVenuesCarousel = () => {
 };
 
 export default NewestVenuesCarousel;
+
+
+
 
 
 
