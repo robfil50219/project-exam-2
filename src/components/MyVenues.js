@@ -77,16 +77,21 @@ const MyVenues = ({ username, token }) => {
                 <h5 className="card-title">{venue.name}</h5>
                 <p className="card-text">{venue.description.substring(0, 100)}...</p>
               </div>
-              <div className="card-footer d-flex justify-content-between">
-                <Link to={`/venues/${venue.id}`} className="btn btn-outline-primary btn-sm">
-                  View Details
-                </Link>
-                <button 
-                  className="btn btn-outline-danger btn-sm"
-                  onClick={() => handleDelete(venue.id)}
-                >
-                  Delete
-                </button>
+              <div className="card-footer">
+                <div className="btn-group" role="group">
+                  <Link to={`/venues/${venue.id}`} className="btn btn-outline-primary btn-sm">
+                    View Details
+                  </Link>
+                  <Link to={`/edit-venue/${venue.id}`} className="btn btn-outline-secondary btn-sm">
+                    Edit Venue
+                  </Link>
+                  <button 
+                    className="btn btn-outline-danger btn-sm"
+                    onClick={() => handleDelete(venue.id)}
+                  >
+                    Delete
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -95,5 +100,4 @@ const MyVenues = ({ username, token }) => {
     </div>
   );
 };
-
 export default MyVenues;
