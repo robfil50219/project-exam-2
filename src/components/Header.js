@@ -23,10 +23,16 @@ const Header = () => {
   return (
     <header className="py-3 bg-dark text-light">
       <div className="container d-flex flex-wrap align-items-center justify-content-between">
-        {/* Left: Brand and Search */}
+        {/* Left: Logo, Brand and Search */}
         <div className="d-flex align-items-center">
-          <Link to="/" className="text-light text-decoration-none fs-4 fw-bold me-3">
-            Holidaze
+          {/* Logo */}
+          <Link to="/" className="d-flex align-items-center text-light text-decoration-none me-3">
+            <img 
+              src={process.env.PUBLIC_URL + '/logoBlue.png'} 
+              alt="Logo" 
+              style={{ height: '40px', marginRight: '10px' }}
+            />
+            <span className="fs-4 fw-bold">Holidaze</span>
           </Link>
           <form onSubmit={handleSearchSubmit} className="d-flex">
             <input
@@ -45,22 +51,15 @@ const Header = () => {
         {/* Right: Navigation Links */}
         <ul className="nav">
           <li className="nav-item">
-            <Link to="/" className="nav-link px-2 text-light">
-              Home
-            </Link>
+            <Link className="nav-link px-2 text-light" to="/">Home</Link>
           </li>
           {token ? (
             <>
               <li className="nav-item">
-                <Link to="/profile" className="nav-link px-2 text-light">
-                  Profile
-                </Link>
+                <Link className="nav-link px-2 text-light" to="/profile">Profile</Link>
               </li>
               <li className="nav-item">
-                <button
-                  onClick={handleLogout}
-                  className="nav-link btn btn-link text-light px-2"
-                >
+                <button className="nav-link btn btn-link text-light px-2" onClick={handleLogout}>
                   Logout
                 </button>
               </li>
@@ -68,14 +67,10 @@ const Header = () => {
           ) : (
             <>
               <li className="nav-item">
-                <Link to="/login" className="nav-link px-2 text-light">
-                  Login
-                </Link>
+                <Link className="nav-link px-2 text-light" to="/login">Login</Link>
               </li>
               <li className="nav-item">
-                <Link to="/register" className="nav-link px-2 text-light">
-                  Register
-                </Link>
+                <Link className="nav-link px-2 text-light" to="/register">Register</Link>
               </li>
             </>
           )}
