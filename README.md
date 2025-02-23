@@ -4,6 +4,17 @@ Holidaze is a modern accommodation booking platform where users can search for a
 Venue managers can register, add, edit, and delete venues.
 The application features responsive design, interactive components, and comprehensive testing.
 
+# Gantt Chart for Exam Project (January 6, 2025 – February 23, 2025)
+
+| Task                           | Start Date | End Date   | Duration |
+| ------------------------------ | ---------- | ---------- | -------- |
+| Project Planning               | 2025-01-06 | 2025-01-07 | 2 days   |
+| Design Prototype & Style Guide | 2025-01-07 | 2025-01-10 | 4 days   |
+| Kanban Board Setup             | 2025-01-06 | 2025-01-06 | 1 day    |
+| Development Phase              | 2025-01-10 | 2025-02-10 | 32 days  |
+| Testing & Debugging            | 2025-02-10 | 2025-02-20 | 11 days  |
+| Final Adjustments & Submission | 2025-02-20 | 2025-02-23 | 4 days   |
+
 ## Table of Contents
 
 - [Features](#features)
