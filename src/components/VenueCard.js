@@ -5,7 +5,7 @@ const VenueCard = ({ venue }) => {
   // Use first image from the media array, or a working placeholder if not available.
   const thumbnail = venue.media && venue.media.length > 0 
     ? venue.media[0].url 
-    : 'https://via.placeholder.com/400x200?text=No+Image';
+    : 'via.placeholder.com/400x200?text=No+Image';
 
   // Build a location string from available location details.
   let locationString = '';
