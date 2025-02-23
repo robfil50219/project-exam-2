@@ -75,3 +75,54 @@ The application features responsive design, interactive components, and comprehe
 **Booking System**
 
 - Book & Cancel: Book venues from the detailed venue pages. View booking details and cancel bookings directly from your profile.
+
+## Testing
+
+- To run the test suite, use the following command:
+  npm test
+  This command runs all tests located in the /tests folder using Jest and React Testing Library.
+
+## Project Structure
+
+holidaze/
+├── public/
+│ ├── favicon.ico
+│ ├── logoBlue.png
+│ ├── manifest.json
+│ └── ... (other assets)
+├── src/
+│ ├── components/
+│ │ ├── Header.js
+│ │ ├── Footer.js
+│ │ ├── VenueCard.js
+│ │ ├── VenueSearch.js
+│ │ └── ... (other reusable components)
+│ ├── pages/
+│ │ ├── Home.js
+│ │ ├── VenueDetails.js
+│ │ ├── Login.js
+│ │ ├── Register.js
+│ │ ├── Profile.js
+│ │ ├── AddVenue.js
+│ │ ├── EditVenue.js
+│ │ ├── BookVenue.js
+│ │ └── ... (other pages)
+│ ├── tests/
+│ │ └── ... (test files)
+│ ├── apiConfig.js
+│ └── App.js
+└── README.md
+
+## API Integration
+
+Holidaze uses the Noroff API (https://v2.api.noroff.dev/holidaze) for fetching and managing data such as venues, profiles, and bookings.
+The API endpoints and keys are configured via the apiConfig.js file.
+
+## Contributing
+
+Contributions are welcome! Please fork the repository and submit a pull request.
+For major changes, open an issue first to discuss what you would like to change.
+
+## License
+
+This project is licensed under the MIT License.
