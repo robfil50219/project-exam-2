@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { getApiKeyOptions } from '../apiConfig';
 
 const VenueDetails = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [venue, setVenue] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -31,6 +32,9 @@ const VenueDetails = () => {
   if (loading) return <p className="text-center my-4">Loading venue details...</p>;
   if (error) return <p className="text-center text-danger my-4">Error: {error}</p>;
   if (!venue) return <p className="text-center my-4">No venue found</p>;
+
+  // Check if the user is logged in
+  const token = localStorage.getItem('token');
 
   return (
     <div className="container my-5">
@@ -102,9 +106,15 @@ const VenueDetails = () => {
                 </p>
               )}
               <div className="mt-4">
-                <Link to={`/book-venue/${venue.id}`} className="btn btn-primary btn-lg">
-                  Book Now
-                </Link>
+                {token ? (
+                  <Link to={`/book-venue/${venue.id}`} className="btn btn-primary btn-lg">
+                    Book Now
+                  </Link>
+                ) : (
+                  <button onClick={() => navigate('/login')} className="btn btn-primary btn-lg">
+                    Book Now
+                  </button>
+                )}
               </div>
             </div>
           </div>
