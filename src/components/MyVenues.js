@@ -77,7 +77,7 @@ const MyVenues = ({ username, token }) => {
                 <h5 className="card-title">{venue.name}</h5>
                 <p className="card-text">{venue.description.substring(0, 100)}...</p>
               </div>
-              <div className="card-footer">
+              <div className="card-footer d-flex justify-content-center">
                 <div className="btn-group" role="group">
                   <Link to={`/venues/${venue.id}`} className="btn btn-outline-primary btn-sm">
                     View Details
@@ -100,4 +100,5 @@ const MyVenues = ({ username, token }) => {
     </div>
   );
 };
+
 export default MyVenues;
