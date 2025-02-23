@@ -1,40 +1,49 @@
-# Holidaze Frontend – Project Exam 2
+# Holidaze
 
-This project is a frontend application for Holidaze, an accommodation booking site. It is built as part of a project exam and demonstrates skills in React, Tailwind CSS, and API integration using the Noroff Holidaze API.
+Holidaze is a modern accommodation booking platform where users can search for and book venues for their getaways.
+Venue managers can register, add, edit, and delete venues.
+The application features responsive design, interactive components, and comprehensive testing.
 
 ## Table of Contents
 
 - [Features](#features)
-- [Technologies Used](#technologies-used)
+- [Technologies](#technologies)
 - [Installation](#installation)
-- [Running Locally](#running-locally)
+- [Usage](#usage)
+- [Testing](#testing)
 - [Project Structure](#project-structure)
 - [API Integration](#api-integration)
-- [Future Enhancements](#future-enhancements)
-- [Credits](#credits)
+- [Contributing](#contributing)
 - [License](#license)
 
 ## Features
 
-- **Venue Listing:** Displays a list of venues fetched from the Noroff Holidaze API.
-- **Venue Details:** Clicking a venue shows detailed information, including images, description, location, amenities, and pricing.
-- **Responsive Design:** Utilizes Tailwind CSS to ensure the app is responsive across devices.
-- **Routing:** Implements client-side routing with React Router.
+- **User Authentication:** Register, login, and logout functionality with secure token handling.
+- **Venue Listings:** Browse, search, and sort venues with pagination and “load more” options.
+- **Venue Details:** View detailed venue information including image carousels (for venues with multiple images), pricing, location, and owner information.
+- **Profile Management:** Update your profile, manage your venues and bookings, and view your profile picture in the header.
+- **Booking System:** Book venues, view booking details, and cancel bookings.
+- **Responsive Design:** Adaptive layouts for desktop and mobile devices with a centered search bar on desktop and a hamburger menu on mobile.
 
-## Technologies Used
+## Technologies
 
-- **React:** For building the user interface.
-- **React Router:** For managing routes and navigation.
-- **Tailwind CSS:** For styling and responsive design.
-- **Create React App:** For bootstrapping the React project.
-- **Noroff Holidaze API:** For fetching venue data.
-- **JavaScript (ES6+):** Language and modern features.
+- **Frontend:** React, React Router, Bootstrap
+- **Testing:** Jest, React Testing Library
+- **API:** Noroff API for authentication, venue data, profiles, and bookings
 
 ## Installation
 
-1. **Clone the Repository:**
+1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/your-username/project-exam-2.git
-   cd project-exam-2
+   git clone https://github.com/robil50219/holidaze.git
+
    ```
+
+2. **Navigate to the project directory:**
+   cd holidaze
+
+3. **Install dependencies**
+   npm install
+
+4.
