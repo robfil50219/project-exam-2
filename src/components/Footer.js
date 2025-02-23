@@ -1,11 +1,10 @@
-// src/components/Footer.js
 import React from 'react';
 import { Link } from 'react-router-dom';
 
 const Footer = () => {
   return (
     <footer className="bg-dark text-light py-4 mt-5" style={{ borderTop: '4px solid #444' }}>
-      <div className="container">
+      <div className="container-fluid">
         <div className="row">
           {/* For medium and larger screens */}
           <div className="d-none d-md-flex col-md-6 justify-content-start align-items-center">
