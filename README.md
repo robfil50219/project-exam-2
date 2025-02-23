@@ -36,7 +36,7 @@ The application features responsive design, interactive components, and comprehe
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/robil50219/holidaze.git
+   git clone https://github.com/robfil50219/project-exam-2.git
 
    ```
 
