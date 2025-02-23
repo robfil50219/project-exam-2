@@ -51,7 +51,7 @@ The application features responsive design, interactive components, and comprehe
 4. **Start the development server:**
 
 - npm start
-  The app will run at http://localhost:3000.
+- The app will run at http://localhost:3000.
 
 ## Usage
 
