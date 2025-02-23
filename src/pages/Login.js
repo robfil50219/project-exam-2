@@ -33,16 +33,25 @@ const Login = () => {
   
       const data = await response.json();
       console.log('Login response:', data);
-      // Update: store token from data.data.accessToken
+      
+      // Store token and username
       localStorage.setItem('token', data.data.accessToken);
       localStorage.setItem('username', data.data.name);
+      
+      // If an avatar exists in the response, store its URL
+      if (data.data.avatar && data.data.avatar.url) {
+        localStorage.setItem('avatarUrl', data.data.avatar.url);
+      } else {
+        localStorage.removeItem('avatarUrl');
+      }
+      
+      // Navigate to the home page
       navigate('/');
     } catch (err) {
       console.error(err);
       setError(err.message);
     }
   };
-  
 
   return (
     <div className="container my-5">

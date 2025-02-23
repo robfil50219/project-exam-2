@@ -3,11 +3,13 @@ import { Link, useNavigate } from 'react-router-dom';
 
 const Header = () => {
   const token = localStorage.getItem('token');
+  const avatarUrl = localStorage.getItem('avatarUrl'); // Ensure this is set after login/profile fetch
   const navigate = useNavigate();
   const [query, setQuery] = useState('');
 
   const handleLogout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('avatarUrl');
     navigate('/');
   };
 
@@ -21,68 +23,97 @@ const Header = () => {
   };
 
   return (
-    <header className="py-3 bg-dark text-light">
-      <div className="container d-flex align-items-center">
+    <nav className="navbar navbar-expand-lg navbar-dark bg-dark py-3">
+      <div className="container-fluid d-flex align-items-center">
         {/* Left: Logo and Brand */}
-        <div className="d-flex align-items-center flex-shrink-0">
-          <Link to="/" className="d-flex align-items-center text-light text-decoration-none me-3">
-            <img 
-              src={process.env.PUBLIC_URL + '/logoBlue.png'} 
-              alt="Logo" 
-              style={{ height: '40px', marginRight: '10px' }}
-            />
-            <span className="fs-4 fw-bold">Holidaze</span>
-          </Link>
-        </div>
-        
-        {/* Center: Search Bar */}
-        <div className="flex-grow-1 text-center">
-          <form onSubmit={handleSearchSubmit} className="d-inline-flex w-100 justify-content-center">
-            <input
-              type="text"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              className="form-control me-2"
-              placeholder="Search venues..."
-              style={{ minWidth: "250px", maxWidth: "400px" }}
-            />
-            <button type="submit" className="btn btn-outline-light">
-              Search
-            </button>
-          </form>
-        </div>
-        
-        {/* Right: Navigation Links */}
-        <div className="d-flex align-items-center flex-shrink-0">
-          <ul className="nav mb-0">
+        <Link to="/" className="navbar-brand d-flex align-items-center">
+          <img 
+            src={process.env.PUBLIC_URL + '/logoBlue.png'} 
+            alt="Logo" 
+            style={{ height: '40px', marginRight: '10px' }}
+          />
+          <span className="fs-4 fw-bold">Holidaze</span>
+        </Link>
+
+        {/* Mobile: Hamburger Toggle */}
+        <button 
+          className="navbar-toggler ms-auto" 
+          type="button" 
+          data-bs-toggle="collapse" 
+          data-bs-target="#navbarContent" 
+          aria-controls="navbarContent" 
+          aria-expanded="false" 
+          aria-label="Toggle navigation"
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
+
+        {/* Collapsible Content */}
+        <div className="collapse navbar-collapse" id="navbarContent">
+          {/* Center: Search Bar */}
+          <div className="d-flex flex-grow-1 justify-content-center">
+            <form onSubmit={handleSearchSubmit} className="d-flex" style={{ maxWidth: '500px', width: '100%' }}>
+              <input
+                type="text"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                className="form-control me-2"
+                placeholder="Search venues..."
+              />
+              <button type="submit" className="btn btn-outline-light">Search</button>
+            </form>
+          </div>
+
+          {/* Right: Navigation Links */}
+          <ul className="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center">
             <li className="nav-item">
-              <Link className="nav-link px-2 text-light" to="/">Home</Link>
+              <Link className="nav-link" to="/">Home</Link>
             </li>
             {token ? (
               <>
                 <li className="nav-item">
-                  <Link className="nav-link px-2 text-light" to="/profile">Profile</Link>
+                  <Link className="nav-link" to="/profile">Profile</Link>
                 </li>
                 <li className="nav-item">
-                  <button className="btn nav-link btn-link text-light px-2" onClick={handleLogout}>
-                    Logout
-                  </button>
+                  <button className="btn nav-link btn-link" onClick={handleLogout}>Logout</button>
                 </li>
+                {/* On desktop, show the profile image to the right */}
+                {avatarUrl && (
+                  <li className="nav-item ms-2 d-none d-lg-block">
+                    <img 
+                      src={avatarUrl} 
+                      alt="Profile" 
+                      className="rounded-circle" 
+                      style={{ height: '40px', width: '40px', objectFit: 'cover' }}
+                    />
+                  </li>
+                )}
               </>
             ) : (
               <>
                 <li className="nav-item">
-                  <Link className="nav-link px-2 text-light" to="/login">Login</Link>
+                  <Link className="nav-link" to="/login">Login</Link>
                 </li>
                 <li className="nav-item">
-                  <Link className="nav-link px-2 text-light" to="/register">Register</Link>
+                  <Link className="nav-link" to="/register">Register</Link>
                 </li>
               </>
+            )}
+            {/* On mobile, show the profile image at the far right */}
+            {token && avatarUrl && (
+              <li className="nav-item d-lg-none">
+                <img 
+                  src={avatarUrl} 
+                  alt="Profile" 
+                  className="rounded-circle ms-2"
+                  style={{ height: '40px', width: '40px', objectFit: 'cover' }}
+                />
+              </li>
             )}
           </ul>
         </div>
       </div>
-    </header>
+    </nav>
   );
 };
 
