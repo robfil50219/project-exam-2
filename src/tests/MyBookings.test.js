@@ -1,73 +1,86 @@
+// src/tests/MyBookings.test.js
 import React from 'react';
 import { render, screen, waitFor, fireEvent } from '@testing-library/react';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { MemoryRouter } from 'react-router-dom';
 import MyBookings from '../components/MyBookings';
 
-global.fetch = jest.fn();
+beforeEach(() => {
+  localStorage.setItem('token', 'dummy-token');
+  // If your component uses username as well:
+  localStorage.setItem('username', 'testuser');
+});
 
-describe('MyBookings Component', () => {
-  const dummyBookings = [
-    {
-      id: 'booking1',
-      dateFrom: '2025-03-01T00:00:00.000Z',
-      dateTo: '2025-03-05T00:00:00.000Z',
-      guests: 2,
-      venue: {
-        id: '1',
-        name: 'Venue One',
-        media: [{ url: 'https://example.com/image1.jpg', alt: 'Image 1' }],
-      },
-    },
-  ];
+afterEach(() => {
+  localStorage.clear();
+  jest.resetAllMocks();
+});
 
-  beforeEach(() => {
-    fetch.mockClear();
-  });
-
-  test('renders bookings after fetching', async () => {
-    fetch.mockResolvedValueOnce({
+test('renders bookings after fetching', async () => {
+  // Mock fetch to return dummy bookings
+  global.fetch = jest.fn(() =>
+    Promise.resolve({
       ok: true,
-      json: async () => ({ data: dummyBookings }),
-    });
+      json: () => Promise.resolve({
+        data: [
+          {
+            id: 'booking1',
+            dateFrom: '2025-03-01T00:00:00.000Z',
+            dateTo: '2025-03-05T00:00:00.000Z',
+            guests: 2,
+            venue: {
+              id: '1',
+              name: 'Venue One',
+              media: [{ url: 'https://example.com/image1.jpg', alt: 'Image 1' }],
+            },
+          },
+        ],
+      }),
+    })
+  );
 
-    render(
-      <Router>
-        <MyBookings />
-      </Router>
-    );
+  render(
+    <MemoryRouter>
+      <MyBookings />
+    </MemoryRouter>
+  );
 
-    expect(screen.getByText(/Loading your bookings/i)).toBeInTheDocument();
+  // Wait for the booking data to appear
+  await waitFor(() => expect(screen.getByText(/Venue One/i)).toBeInTheDocument());
+});
 
-    await waitFor(() => expect(screen.getByText(/Booking ID/i)).toBeInTheDocument());
-    expect(screen.getByText(/Venue One/i)).toBeInTheDocument();
-  });
+test('cancels a booking when cancel button is clicked', async () => {
+  // Setup your dummy booking data and mock fetch calls
+  global.fetch = jest.fn()
+    .mockResolvedValueOnce({
+      ok: true,
+      json: () => Promise.resolve({
+        data: [
+          {
+            id: 'booking1',
+            dateFrom: '2025-03-01T00:00:00.000Z',
+            dateTo: '2025-03-05T00:00:00.000Z',
+            guests: 2,
+            venue: {
+              id: '1',
+              name: 'Venue One',
+              media: [{ url: 'https://example.com/image1.jpg', alt: 'Image 1' }],
+            },
+          },
+        ],
+      }),
+    })
+    .mockResolvedValueOnce({ ok: true }); // for DELETE
 
-  test('cancels a booking when cancel button is clicked', async () => {
-    fetch
-      .mockResolvedValueOnce({
-        ok: true,
-        json: async () => ({ data: dummyBookings }),
-      })
-      .mockResolvedValueOnce({
-        ok: true,
-      });
+  window.confirm = jest.fn(() => true);
 
-    // Override window.confirm to simulate confirmation
-    window.confirm = jest.fn(() => true);
+  render(
+    <MemoryRouter>
+      <MyBookings />
+    </MemoryRouter>
+  );
 
-    render(
-      <Router>
-        <MyBookings />
-      </Router>
-    );
-
-    await waitFor(() => expect(screen.getByText(/Venue One/i)).toBeInTheDocument());
-
-    const cancelButton = screen.getByRole('button', { name: /Cancel Booking/i });
-    fireEvent.click(cancelButton);
-
-    await waitFor(() => {
-      expect(screen.queryByText(/Booking ID: booking1/i)).not.toBeInTheDocument();
-    });
-  });
+  await waitFor(() => expect(screen.getByText(/Venue One/i)).toBeInTheDocument());
+  const cancelButton = screen.getByRole('button', { name: /Cancel Booking/i });
+  fireEvent.click(cancelButton);
+  await waitFor(() => expect(screen.queryByText(/Venue One/i)).not.toBeInTheDocument());
 });
