@@ -41,9 +41,37 @@ The application features responsive design, interactive components, and comprehe
    ```
 
 2. **Navigate to the project directory:**
-   cd holidaze
+
+- cd holidaze
 
 3. **Install dependencies**
-   npm install
 
-4.
+- npm install
+
+4. **Start the development server:**
+
+- npm start
+  The app will run at http://localhost:3000.
+
+## Usage
+
+**User Authentication**
+
+- Register / Login: Use your Noroff email credentials to register or log in. Once logged in, your profile, venues, and booking options will be available.
+
+**Venue Listings & Search**
+
+- Browse & Search: The home page displays venue cards with basic details. Use the search bar in the header to filter venues by name, description, or location.
+  Sorting options let you view venues by newest or by price.
+
+**Venue Details**
+
+- Detailed View: Click on a venue card to see detailed information—including an image carousel (if multiple images are available), pricing, location, and booking options.
+
+**Profile Managment**
+
+- Manage Your Profile: Access your profile page to update your bio, profile picture, and banner. Manage your venues and bookings from your profile page.
+
+**Booking System**
+
+- Book & Cancel: Book venues from the detailed venue pages. View booking details and cancel bookings directly from your profile.
