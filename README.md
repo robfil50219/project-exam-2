@@ -1,4 +1,4 @@
-# <img src="/public/logoBlue.png alt="Holidaze Logo" style="height:40px; vertical-align: middle; margin-right:10px;" /> Holidaze
+# <img src="/public/logoBlue.png" alt="Holidaze Logo" style="height:40px; vertical-align: middle; margin-right:10px;" /> Holidaze
 
 Holidaze is a modern accommodation booking platform where users can search for and book venues for their getaways.
 Venue managers can register, add, edit, and delete venues.
