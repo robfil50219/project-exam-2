@@ -24,7 +24,7 @@ const Header = () => {
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark py-3">
-      <div className="container-fluid d-flex align-items-center">
+      <div className="container-fluid">
         {/* Left: Logo and Brand */}
         <Link to="/" className="navbar-brand d-flex align-items-center">
           <img 
@@ -35,18 +35,28 @@ const Header = () => {
           <span className="fs-4 fw-bold">Holidaze</span>
         </Link>
 
-        {/* Mobile: Hamburger Toggle */}
-        <button 
-          className="navbar-toggler ms-auto" 
-          type="button" 
-          data-bs-toggle="collapse" 
-          data-bs-target="#navbarContent" 
-          aria-controls="navbarContent" 
-          aria-expanded="false" 
-          aria-label="Toggle navigation"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
+        {/* Mobile: Hamburger Toggle + Profile Image */}
+        <div className="d-lg-none d-flex align-items-center ms-auto">
+          <button 
+            className="navbar-toggler me-2" 
+            type="button" 
+            data-bs-toggle="collapse" 
+            data-bs-target="#navbarContent" 
+            aria-controls="navbarContent" 
+            aria-expanded="false" 
+            aria-label="Toggle navigation"
+          >
+            <span className="navbar-toggler-icon"></span>
+          </button>
+          {token && avatarUrl && (
+            <img 
+              src={avatarUrl} 
+              alt="Profile" 
+              className="rounded-circle" 
+              style={{ height: '40px', width: '40px', objectFit: 'cover' }}
+            />
+          )}
+        </div>
 
         {/* Collapsible Content */}
         <div className="collapse navbar-collapse" id="navbarContent">
@@ -64,7 +74,7 @@ const Header = () => {
             </form>
           </div>
 
-          {/* Right: Navigation Links */}
+          {/* Right: Navigation Links (Desktop) */}
           <ul className="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center">
             <li className="nav-item">
               <Link className="nav-link" to="/">Home</Link>
@@ -77,7 +87,7 @@ const Header = () => {
                 <li className="nav-item">
                   <button className="btn nav-link btn-link" onClick={handleLogout}>Logout</button>
                 </li>
-                {/* On desktop, show the profile image to the right */}
+                {/* Desktop: Show profile image to the right */}
                 {avatarUrl && (
                   <li className="nav-item ms-2 d-none d-lg-block">
                     <img 
@@ -98,17 +108,6 @@ const Header = () => {
                   <Link className="nav-link" to="/register">Register</Link>
                 </li>
               </>
-            )}
-            {/* On mobile, show the profile image at the far right */}
-            {token && avatarUrl && (
-              <li className="nav-item d-lg-none">
-                <img 
-                  src={avatarUrl} 
-                  alt="Profile" 
-                  className="rounded-circle ms-2"
-                  style={{ height: '40px', width: '40px', objectFit: 'cover' }}
-                />
-              </li>
             )}
           </ul>
         </div>
